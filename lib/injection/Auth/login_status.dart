@@ -9,6 +9,7 @@ class LoginStatus extends ChangeNotifier{
    String _currentUser ="";
    bool _screenIndex = true;
    int _categoryIndex = 0;
+   String _categoryName = "Select Category";
 
 /////////////////////////////////////////this is chacking login state by boolien
   bool getIsLogin(){
@@ -62,6 +63,15 @@ class LoginStatus extends ChangeNotifier{
 
   void setCategoryindex(int index){
     _categoryIndex = index ;
+    notifyListeners();
+  }
+  ////////////////////////////////////////////
+  String getCategoryName(){
+    return _categoryName;
+  }
+
+  void setCategoryName(String name){
+    _categoryName = name ;
     notifyListeners();
   }
 }

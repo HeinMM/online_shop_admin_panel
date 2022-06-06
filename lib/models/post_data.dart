@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:one_two_one_admin/models/get_image.dart';
 
 part 'post_data.g.dart';
 
@@ -13,6 +14,7 @@ class PostData {
   String? price;
   String? dec;
   String? qty;
+   List<GetImage>? post_images;
  
 
   PostData(
@@ -22,6 +24,7 @@ class PostData {
       @required this.category_id,
       @required this.dec,
       @required this.qty,
+       @required this.post_images,
      });
 
   factory PostData.fromJson(Map<String, dynamic> json) =>

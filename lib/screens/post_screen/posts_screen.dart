@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:one_two_one_admin/injection/Auth/api_staff.dart';
@@ -47,21 +46,10 @@ class _PostsScreenState extends State<PostsScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        SizedBox(
-                          width: 100,
+                        Image.asset(
+                          'assets/images/rabbit.jpg',
                           height: 100,
-                          child: 
-                          CachedNetworkImage(
-                            imageUrl: "${snapshots.data![index].post_images![0].file_path}",
-                            placeholder: (context, url) => const SizedBox(
-                              width: 10,
-                              height: 10,
-                              child: CircularProgressIndicator(),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                                fit: BoxFit.fill,
-                          ),
+                          width: 100,
                         ),
                         Expanded(
                           flex: 4,

@@ -13,6 +13,9 @@ PostData _$PostDataFromJson(Map<String, dynamic> json) => PostData(
       category_id: json['category_id'] as String?,
       dec: json['dec'] as String?,
       qty: json['qty'] as String?,
+      post_images: (json['post_images'] as List<dynamic>?)
+          ?.map((e) => GetImage.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$PostDataToJson(PostData instance) => <String, dynamic>{
@@ -22,4 +25,5 @@ Map<String, dynamic> _$PostDataToJson(PostData instance) => <String, dynamic>{
       'price': instance.price,
       'dec': instance.dec,
       'qty': instance.qty,
+      'post_images': instance.post_images,
     };

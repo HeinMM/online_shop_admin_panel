@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -7,7 +8,6 @@ import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:one_two_one_admin/injection/Auth/login_status.dart';
 
 import 'package:one_two_one_admin/models/sale_data.dart';
-import 'package:one_two_one_admin/screens/sale_screen/sale_screen.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 import 'dart:convert';
@@ -24,7 +24,7 @@ class AddSalePost extends StatefulWidget {
 class _AddSalePostState extends State<AddSalePost> {
   final _formKey = GlobalKey<FormState>();
 
-  // List<File> fileImage = <File>[];
+  List<File> fileImage = <File>[];
   List<Asset>? image = <Asset>[];
   List<MultipartFile> multipartImageList = [];
   String _error = 'No Error Detected';
@@ -33,16 +33,21 @@ class _AddSalePostState extends State<AddSalePost> {
   bool responStatus = false;
   String responMessage = "";
 
-  var progress;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   FocusScope.of(context).unfocus();
+  // }
 
   Future<void> loadAssets() async {
     List<Asset> resultList = <Asset>[];
     String error = 'No Error Detected';
+
+    if (resultList != null || multipartImageList != null || image != null) {
+      resultList.clear();
+      multipartImageList.clear();
+      image!.clear();
+    }
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -59,34 +64,15 @@ class _AddSalePostState extends State<AddSalePost> {
         ),
       );
     } on Exception catch (e) {
-      error = e.toString();
+      print('Exep: ****${e}***');
     }
     if (!mounted) return;
+
     setState(() {
       image = resultList;
       _error = error;
     });
-    // ignore: avoid_function_literals_in_foreach_calls
-    // resultList.forEach(/////////////////////////////////////////////////MY NOTE changing Asset file to File
-    //   (asset) async {
-    //     try {
-    //       final byteData = await asset.getByteData();
-
-    //       final tempFile =
-    //           File("${(await getTemporaryDirectory()).path}/${asset.name}");
-
-    //       final file = await tempFile.writeAsBytes(
-    //         byteData.buffer
-    //             .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
-    //       );
-
-    //       fileImage.add(file);
-    //     } catch (e) {
-    //       print(e);
-    //     }
-    //   },
-    // );
-  }
+  } 
 
   upload(
       List<Asset>? assetImage, SaleData saleData, BuildContext context) async {
@@ -96,10 +82,11 @@ class _AddSalePostState extends State<AddSalePost> {
       MultipartFile multipartFile = MultipartFile.fromBytes(
         imageData,
         filename: asset.name!.split('/').last,
-        contentType: MediaType('image', "jpg"),
+        contentType: MediaType('image', "heic"),
       );
       multipartImageList.add(multipartFile);
     }
+
     var data = FormData.fromMap({
       "images[]": multipartImageList,
       "title": saleData.title,
@@ -117,10 +104,10 @@ class _AddSalePostState extends State<AddSalePost> {
         progressType: ProgressType.valuable,
         progressBgColor: Colors.transparent);
     Response<String> response = await dio
-        .post("http://192.168.219.100:80/api/sale", data: data,
+        .post("http://192.168.219.103:80/api/sale", data: data,
             onSendProgress: (int sent, int total) {
       int progress = (((sent / total) * 100).toInt());
-      
+
       pd.update(value: progress);
     });
 
@@ -131,8 +118,8 @@ class _AddSalePostState extends State<AddSalePost> {
     });
 
     if (responStatus) {
-       Navigator.pop(context);
-       
+      Navigator.pop(context);
+
       final snackBar = SnackBar(
         behavior: SnackBarBehavior.floating,
         content: Text(responMessage),
@@ -143,8 +130,6 @@ class _AddSalePostState extends State<AddSalePost> {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-     
     }
   }
 
@@ -318,8 +303,9 @@ class _AddSalePostState extends State<AddSalePost> {
                         qty: qtyController.text,
                         waiting_time: waitingController.text,
                       );
-                      upload(image, saleData, context);
+                       upload(image, saleData, context);
                     }
+                   
                   },
                   child: const Text('Post'),
                 ),

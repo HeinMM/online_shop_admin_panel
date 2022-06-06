@@ -10,7 +10,7 @@ part of 'api_staff.dart';
 
 class _ApiStaff implements ApiStaff {
   _ApiStaff(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://192.168.219.100:80/api/';
+    baseUrl ??= 'http://192.168.219.103:80/api/';
   }
 
   final Dio _dio;

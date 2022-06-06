@@ -45,6 +45,7 @@ dependencies:
   multi_image_picker2: ^5.0.2
   image_picker: ^0.8.4+10
   sn_progress_dialog: ^1.0.3
+  heic_to_jpg: ^0.2.0
 
 
   # The following adds the Cupertino Icons font to your application.

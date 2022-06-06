@@ -10,6 +10,7 @@ import 'package:one_two_one_admin/models/current_user.dart';
 import 'package:one_two_one_admin/screens/category_screen.dart';
 import 'package:one_two_one_admin/screens/design_screen/design_screen.dart';
 import 'package:one_two_one_admin/screens/orders_screen.dart';
+import 'package:one_two_one_admin/screens/post_screen/post.dart';
 import 'package:one_two_one_admin/screens/posts_screen.dart';
 import 'package:one_two_one_admin/screens/sale_screen/sale_screen.dart';
 import 'package:one_two_one_admin/screens/search_screen.dart';
@@ -168,6 +169,7 @@ class _HomeState extends State<Home> {
                     builder: (context) {
                       return const DesignScreen();
                     },
+                    
                   ),
                 );
               },
@@ -192,7 +194,7 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      body: screenindex.getScreenIndex() ? PostWidget() : MessageWidge(),
+      body: screenindex.getScreenIndex() ? Post() : MessageWidge(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) async {
           currentIndex.setCurrentIndex(index);
